@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package colly;
+option go_package = "colly";
+
+message ProtoRequest { 
+  string URL = 1;
+  string Method = 2;
+  repeated bytes Body = 3;
+  uint32 ID = 4; 
+  map<string, google.protobuf.Any> Ctx = 5;
+  map<string, string> Headers = 6;
+  int32 Depth = 7;
+  string ResponseCharacterEncoding = 8;
+  Collector Collector = 9;
+  bool Abort = 10;
+  string BaseUrl = 11;
+  string ProxyUrl = 12;
+}
+

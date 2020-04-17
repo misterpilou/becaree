@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package colly;
+option go_package = "colly";
+
+message ProtoCollector {
+  string UserAgent = 1;
+  int64 MaxDepth = 2;
+  repeated string AllowedDomains = 3;
+  repeated string DisallowedDomains = 4;
+  string DisallowedURLFilters = 5;
+  string URLFilters = 6;
+  bool AllowURLRevisit = 7;
+  int32 MaxBodySize = 8;
+  string CacheDir = 19;
+  bool IgnoreRobotsTxt = 9;
+  bool IsAsync = 10;
+  bool ParseHttpError = 11;
+  uint32 ID = 12;
+  bool DetectCharset = 13;
+  google.protobuf.Any RedirectHandler = 14;
+  bool CheckHead = 15;
+  uint32 RequestCount = 16;
+  uint32 ResponseCount = 17;
+  map<string, google.protobuf.Any> RobotsMap = 18;
+}
+
+message ProtoResponse {
+  int32 StatusCode = 1;
+  bytes Body = 2;
+  map<string, google.protobuf.Any> Ctx = 3;
+  ProtoRequest Request = 4;
+  map<string, string> Headers = 5;
+}
+
+message ProtoRequest { 
+  string URL = 1;
+  string Method = 2;
+  repeated bytes Body = 3;
+  uint32 ID = 4; 
+  map<string, google.protobuf.Any> Ctx = 5;
+  map<string, string> Headers = 6;
+  int32 Depth = 7;
+  string ResponseCharacterEncoding = 8;
+  ProtoCollector Collector = 9;
+  bool Abort = 10;
+  string BaseUrl = 11;
+  string ProxyUrl = 12;
+}
+
+message GrpcError {
+  int32 StatusCode = 1;
+}
+
+service Scraper {
+  rpc GetResponse (ProtoResponse) returns (GrpcError) {}
+}
+  
+
